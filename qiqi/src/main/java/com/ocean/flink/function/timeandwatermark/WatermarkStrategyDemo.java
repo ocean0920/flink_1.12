@@ -51,7 +51,7 @@ public class WatermarkStrategyDemo {
                 out.collect(new Tuple2<>(fields[1],1));
 
             }
-        }).keyBy(date -> date.f0).window(TumblingEventTimeWindows.of(Time.seconds(5))).sum(1).print();
+        }).keyBy(x -> x.f0).window(TumblingEventTimeWindows.of(Time.seconds(5))).sum(1).print();
 
         env.execute("run watermark word count");
     }
