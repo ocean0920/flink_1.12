@@ -1,0 +1,15 @@
+-- checkpoint:flink自动执行的快照，可以时增量的，目的是能够从故障中恢复
+   savepoint：用户手动触发的快照，始终是全量的，目的是有状态的重新部署、升级、缩放操作
+
+-- flink不依赖kafka的offset从系统故障中恢复
+
+-- 精准一次需要保证：1、source是可重放的  2、sink是事务的或者幂等的
+
+-- flink的checkpoint只能实现flink内部的exactly_once，无法保证sink到外部系统的exactly_once
+   要想实现端到端的exactly_once,需要实现TwoPhaseCommitSinkFunction抽象类
+
+-- flink批处理容错不使用检查点，而是通过重放的方式
+
+-- 在flink中测量事件时间进展的机制是watermark
+
+-- statebacked用来控制流模式下的状态的存储方式和检查点的工作方式，批模式下无statebacked
